@@ -1,0 +1,53 @@
+blueprint:
+  name: IKEA E1743 Short & Long Press Zigbee2MQTT
+  description: Steuerung von Aktionen eines IKEA TRADFRI On/Off Switch über Zigbee2MQTT (Short Press + Long Press)
+  domain: automation
+  input:
+    mqtt_topic:
+      name: MQTT Topic des Schalters
+      description: Das Topic, unter dem Zigbee2MQTT die Switch-Aktionen veröffentlicht
+      default: "zigbee2mqtt/schalter_1"
+      selector:
+        text:
+    short_press_on:
+      name: Short Press ON
+      description: Aktion bei kurzem Drücken ON
+      default: []
+      selector:
+        action:
+    short_press_off:
+      name: Short Press OFF
+      description: Aktion bei kurzem Drücken OFF
+      default: []
+      selector:
+        action:
+    long_press_up:
+      name: Long Press UP
+      description: Aktion bei langem Drücken UP
+      default: []
+      selector:
+        action:
+    long_press_down:
+      name: Long Press DOWN
+      description: Aktion bei langem Drücken DOWN
+      default: []
+      selector:
+        action:
+
+trigger:
+  - platform: mqtt
+    topic: !input mqtt_topic
+
+variables:
+  action: "{{ trigger.payload_json.action }}"
+
+action:
+  - choose:
+      - conditions: "{{ action == 'on' }}"
+        sequence: !input short_press_on
+      - conditions: "{{ action == 'off' }}"
+        sequence: !input short_press_off
+      - conditions: "{{ action == 'brightness_move_up' }}"
+        sequence: !input long_press_up
+      - conditions: "{{ action == 'brightness_move_down' }}"
+        sequence: !input long_press_down
