@@ -1,0 +1,100 @@
+blueprint:
+  name: Shelly i4 4-Button Multi-Press
+  description: Automatisierung für Shelly i4 mit 4 Tasten, die Short, Long, Single und Double Press unterscheiden
+  domain: automation
+  input:
+    shelly_device:
+      name: Shelly i4 Device
+      selector:
+        entity:
+          domain: sensor
+
+    # Short Press Actions
+    short_press_1:
+      name: Short Press Button 1
+      selector:
+        action: {}
+    short_press_2:
+      name: Short Press Button 2
+      selector:
+        action: {}
+    short_press_3:
+      name: Short Press Button 3
+      selector:
+        action: {}
+    short_press_4:
+      name: Short Press Button 4
+      selector:
+        action: {}
+
+    # Long Press Actions
+    long_press_1:
+      name: Long Press Button 1
+      selector:
+        action: {}
+    long_press_2:
+      name: Long Press Button 2
+      selector:
+        action: {}
+    long_press_3:
+      name: Long Press Button 3
+      selector:
+        action: {}
+    long_press_4:
+      name: Long Press Button 4
+      selector:
+        action: {}
+
+    # Double Press Actions
+    double_press_1:
+      name: Double Press Button 1
+      selector:
+        action: {}
+    double_press_2:
+      name: Double Press Button 2
+      selector:
+        action: {}
+    double_press_3:
+      name: Double Press Button 3
+      selector:
+        action: {}
+    double_press_4:
+      name: Double Press Button 4
+      selector:
+        action: {}
+        
+trigger:
+  - platform: state
+    entity_id: !input "shelly_device"
+
+variables:
+  event: "{{ trigger.to_state.state }}"
+
+action:
+  - choose:
+      - conditions: "{{ event == 'S1_short' }}"
+        sequence: !input "short_press_1"
+      - conditions: "{{ event == 'S2_short' }}"
+        sequence: !input "short_press_2"
+      - conditions: "{{ event == 'S3_short' }}"
+        sequence: !input "short_press_3"
+      - conditions: "{{ event == 'S4_short' }}"
+        sequence: !input "short_press_4"
+
+      - conditions: "{{ event == 'S1_long' }}"
+        sequence: !input "long_press_1"
+      - conditions: "{{ event == 'S2_long' }}"
+        sequence: !input "long_press_2"
+      - conditions: "{{ event == 'S3_long' }}"
+        sequence: !input "long_press_3"
+      - conditions: "{{ event == 'S4_long' }}"
+        sequence: !input "long_press_4"
+
+      - conditions: "{{ event == 'S1_double' }}"
+        sequence: !input "double_press_1"
+      - conditions: "{{ event == 'S2_double' }}"
+        sequence: !input "double_press_2"
+      - conditions: "{{ event == 'S3_double' }}"
+        sequence: !input "double_press_3"
+      - conditions: "{{ event == 'S4_double' }}"
+        sequence: !input "double_press_4"
