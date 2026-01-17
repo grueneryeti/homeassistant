@@ -1,57 +1,54 @@
 blueprint:
-  name: Shelly i4 Multi-Press Sensor Automation
-  description: >
-    Automatisierung für Shelly i4 Tasten über Sensoren. Unterstützt Short Press, Long Press, Single Press und Double Press.
-    Du kannst jeden Shelly i4 Sensor aus der Shelly Integration auswählen.
+  name: IKEA E1743 Short & Long Press Modular Zigbee2MQTT
+  description: Steuerung von Aktionen eines IKEA TRADFRI On/Off Switch über Zigbee2MQTT (Short Press + Long Press) mit Geräteauswahl
   domain: automation
-
   input:
-    shelly_sensor:
-      name: Shelly i4 Sensor
-      description: Wähle den Sensor aus, der die Taste meldet
+    switch_device:
+      name: Zigbee2MQTT Switch
+      description: Wähle den Schalter aus, dessen Aktionen verwendet werden sollen
       selector:
         entity:
           domain: sensor
-          integration: shelly
-
-    short_press_action:
-      name: Short Press Aktion
-      description: Aktion, die bei einem kurzen Tastendruck ausgeführt wird
+          integration: zigbee2mqtt
+    short_press_on:
+      name: Short Press ON
+      description: Aktion bei kurzem Drücken ON
+      default: []
       selector:
-        action: {}
-
-    long_press_action:
-      name: Long Press Aktion
-      description: Aktion, die bei einem langen Tastendruck ausgeführt wird
+        action:
+    short_press_off:
+      name: Short Press OFF
+      description: Aktion bei kurzem Drücken OFF
+      default: []
       selector:
-        action: {}
-
-    single_press_action:
-      name: Single Press Aktion
-      description: Aktion, die bei einem einfachen Klick ausgeführt wird
+        action:
+    long_press_up:
+      name: Long Press UP
+      description: Aktion bei langem Drücken UP
+      default: []
       selector:
-        action: {}
-
-    double_press_action:
-      name: Double Press Aktion
-      description: Aktion, die bei einem doppelten Klick ausgeführt wird
+        action:
+    long_press_down:
+      name: Long Press DOWN
+      description: Aktion bei langem Drücken DOWN
+      default: []
       selector:
-        action: {}
+        action:
 
 trigger:
-  - platform: state
-    entity_id: !input "shelly_sensor"
+  - platform: mqtt
+    topic: "zigbee2mqtt/{{ state_attr(!input 'switch_device', 'friendly_name') }}"
 
 variables:
-  event: "{{ trigger.to_state.state }}"
+  action: "{{ trigger.payload_json.action }}"
 
 action:
   - choose:
-      - conditions: "{{ event in ['shortpush', 'S1_short', 'S2_short', 'S3_short', 'S4_short'] }}"
-        sequence: !input "short_press_action"
-      - conditions: "{{ event in ['longpush', 'S1_long', 'S2_long', 'S3_long', 'S4_long'] }}"
-        sequence: !input "long_press_action"
-      - conditions: "{{ event in ['single', 'S1_single', 'S2_single', 'S3_single', 'S4_single'] }}"
-        sequence: !input "single_press_action"
-      - conditions: "{{ event in ['double', 'S1_double', 'S2_double', 'S3_double', 'S4_double'] }}"
-        sequence: !input "double_press_action"
+      - conditions: "{{ action == 'on' }}"
+        sequence: !input short_press_on
+      - conditions: "{{ action == 'off' }}"
+        sequence: !input short_press_off
+      - conditions: "{{ action == 'brightness_move_up' }}"
+        sequence: !input long_press_up
+      - conditions: "{{ action == 'brightness_move_down' }}"
+        sequence: !input long_press_down
