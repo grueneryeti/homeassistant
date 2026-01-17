@@ -1,11 +1,11 @@
 blueprint:
-  name: Shelly i4 4 Buttons actions
-  description: Automatisierung für Shelly i4 Tasten. Unterstützt Short, Long, Single und Double Press.
+  name: Shelly i4 4 Buttons Actions
+  description: Automation für Shelly i4 mit Short, Long, Single und Double Press auf allen 4 Tasten
   domain: automation
   input:
     button:
       name: Shelly i4
-      description: Wähle dein Shelly i4 Device
+      description: Wähle dein Shelly i4 Gerät
       selector:
         device:
           manufacturer: Shelly
@@ -80,8 +80,9 @@ blueprint:
       name: Long press Button 4
       selector: { action: {} }
 
-mode: restart
+mode: single
 max_exceeded: silent
+
 trigger:
   # Button 1
   - platform: device
