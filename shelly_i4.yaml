@@ -1,37 +1,40 @@
 blueprint:
   name: Shelly i4 Multi-Press Sensor Automation
-  description: Automatisierung für Shelly i4 Tasten mit Short, Long, Single und Double Press über Sensoren
+  description: >
+    Automatisierung für Shelly i4 Tasten über Sensoren. Unterstützt Short Press, Long Press, Single Press und Double Press.
+    Du kannst jeden Shelly i4 Sensor aus der Shelly Integration auswählen.
   domain: automation
+
   input:
-    # Sensor auswählen
     shelly_sensor:
       name: Shelly i4 Sensor
-      description: Wähle den Sensor, der die Taste meldet
+      description: Wähle den Sensor aus, der die Taste meldet
       selector:
         entity:
           domain: sensor
+          integration: shelly
 
-    # Short Press Aktion
     short_press_action:
       name: Short Press Aktion
+      description: Aktion, die bei einem kurzen Tastendruck ausgeführt wird
       selector:
         action: {}
 
-    # Long Press Aktion
     long_press_action:
       name: Long Press Aktion
+      description: Aktion, die bei einem langen Tastendruck ausgeführt wird
       selector:
         action: {}
 
-    # Single Press Aktion
     single_press_action:
       name: Single Press Aktion
+      description: Aktion, die bei einem einfachen Klick ausgeführt wird
       selector:
         action: {}
 
-    # Double Press Aktion
     double_press_action:
       name: Double Press Aktion
+      description: Aktion, die bei einem doppelten Klick ausgeführt wird
       selector:
         action: {}
 
