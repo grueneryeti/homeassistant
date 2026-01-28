@@ -1,42 +1,73 @@
 blueprint:
-  name: Shelly i4 Gen3 – 4 Eingänge alle Aktionen
+  name: Shelly i4 Gen3 – 16 Aktionen kompakt
   description: >
-    Wähle oben das Shelly i4 Gerät aus und definiere Aktionen für alle 4 Eingänge.
-    Jede Aktion (single, double, triple, long, btn_down, btn_up) kann pro Eingang ausgewählt werden.
+    Wähle oben das Shelly i4 Gen3 Gerät aus. 
+    Alle 16 Aktionen (4 Eingänge × 4 Events) werden untereinander angezeigt.
   domain: automation
 
   input:
     shelly_device:
       name: Shelly i4 Gen3 Gerät
-      description: Das Shelly i4 Gen3 Gerät auswählen
       selector:
         device:
           integration: mqtt
           manufacturer: Shelly
 
-    input0_actions:
-      name: Aktionen für Eingang 0
-      description: Alle Aktionen für Eingang 0
-      selector:
-        action: {}
+    # Eingang 0
+    in0_single:
+      name: Eingang 0 – Single Push
+      selector: { action: {} }
+    in0_double:
+      name: Eingang 0 – Double Push
+      selector: { action: {} }
+    in0_triple:
+      name: Eingang 0 – Triple Push
+      selector: { action: {} }
+    in0_long:
+      name: Eingang 0 – Long Push
+      selector: { action: {} }
 
-    input1_actions:
-      name: Aktionen für Eingang 1
-      description: Alle Aktionen für Eingang 1
-      selector:
-        action: {}
+    # Eingang 1
+    in1_single:
+      name: Eingang 1 – Single Push
+      selector: { action: {} }
+    in1_double:
+      name: Eingang 1 – Double Push
+      selector: { action: {} }
+    in1_triple:
+      name: Eingang 1 – Triple Push
+      selector: { action: {} }
+    in1_long:
+      name: Eingang 1 – Long Push
+      selector: { action: {} }
 
-    input2_actions:
-      name: Aktionen für Eingang 2
-      description: Alle Aktionen für Eingang 2
-      selector:
-        action: {}
+    # Eingang 2
+    in2_single:
+      name: Eingang 2 – Single Push
+      selector: { action: {} }
+    in2_double:
+      name: Eingang 2 – Double Push
+      selector: { action: {} }
+    in2_triple:
+      name: Eingang 2 – Triple Push
+      selector: { action: {} }
+    in2_long:
+      name: Eingang 2 – Long Push
+      selector: { action: {} }
 
-    input3_actions:
-      name: Aktionen für Eingang 3
-      description: Alle Aktionen für Eingang 3
-      selector:
-        action: {}
+    # Eingang 3
+    in3_single:
+      name: Eingang 3 – Single Push
+      selector: { action: {} }
+    in3_double:
+      name: Eingang 3 – Double Push
+      selector: { action: {} }
+    in3_triple:
+      name: Eingang 3 – Triple Push
+      selector: { action: {} }
+    in3_long:
+      name: Eingang 3 – Long Push
+      selector: { action: {} }
 
 mode: restart
 
@@ -51,14 +82,43 @@ condition:
 
 action:
   - choose:
-      - conditions: "{{ trigger.event.data.input == 0 }}"
-        sequence: !input input0_actions
 
-      - conditions: "{{ trigger.event.data.input == 1 }}"
-        sequence: !input input1_actions
+      # Eingang 0
+      - conditions: "{{ trigger.event.data.input == 0 and trigger.event.data.event_type == 'single_push' }}"
+        sequence: !input in0_single
+      - conditions: "{{ trigger.event.data.input == 0 and trigger.event.data.event_type == 'double_push' }}"
+        sequence: !input in0_double
+      - conditions: "{{ trigger.event.data.input == 0 and trigger.event.data.event_type == 'triple_push' }}"
+        sequence: !input in0_triple
+      - conditions: "{{ trigger.event.data.input == 0 and trigger.event.data.event_type == 'long_push' }}"
+        sequence: !input in0_long
 
-      - conditions: "{{ trigger.event.data.input == 2 }}"
-        sequence: !input input2_actions
+      # Eingang 1
+      - conditions: "{{ trigger.event.data.input == 1 and trigger.event.data.event_type == 'single_push' }}"
+        sequence: !input in1_single
+      - conditions: "{{ trigger.event.data.input == 1 and trigger.event.data.event_type == 'double_push' }}"
+        sequence: !input in1_double
+      - conditions: "{{ trigger.event.data.input == 1 and trigger.event.data.event_type == 'triple_push' }}"
+        sequence: !input in1_triple
+      - conditions: "{{ trigger.event.data.input == 1 and trigger.event.data.event_type == 'long_push' }}"
+        sequence: !input in1_long
 
-      - conditions: "{{ trigger.event.data.input == 3 }}"
-        sequence: !input input3_actions
+      # Eingang 2
+      - conditions: "{{ trigger.event.data.input == 2 and trigger.event.data.event_type == 'single_push' }}"
+        sequence: !input in2_single
+      - conditions: "{{ trigger.event.data.input == 2 and trigger.event.data.event_type == 'double_push' }}"
+        sequence: !input in2_double
+      - conditions: "{{ trigger.event.data.input == 2 and trigger.event.data.event_type == 'triple_push' }}"
+        sequence: !input in2_triple
+      - conditions: "{{ trigger.event.data.input == 2 and trigger.event.data.event_type == 'long_push' }}"
+        sequence: !input in2_long
+
+      # Eingang 3
+      - conditions: "{{ trigger.event.data.input == 3 and trigger.event.data.event_type == 'single_push' }}"
+        sequence: !input in3_single
+      - conditions: "{{ trigger.event.data.input == 3 and trigger.event.data.event_type == 'double_push' }}"
+        sequence: !input in3_double
+      - conditions: "{{ trigger.event.data.input == 3 and trigger.event.data.event_type == 'triple_push' }}"
+        sequence: !input in3_triple
+      - conditions: "{{ trigger.event.data.input == 3 and trigger.event.data.event_type == 'long_push' }}"
+        sequence: !input in3_long
