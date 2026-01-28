@@ -1,188 +1,183 @@
 blueprint:
-  name: Shelly i4 Gen3 – Alle Aktionen (4 Eingänge × 6 Events)
+  name: Shelly i4 Gen3 – Alle Aktionen via MQTT
   description: >
-    Wähle dein Shelly i4 Gen3 Gerät aus. 
-    Alle 24 Aktionen stehen als separate Felder zur Verfügung.
-    Leere Aktionen werden automatisch ignoriert.
+    Wähle dein Shelly i4 Gen3 Gerät (MQTT) aus. 
+    Alle 24 Aktionen (4 Eingänge × 6 Events) stehen untereinander als einzelne Felder zur Verfügung.
   domain: automation
 
   input:
-    shelly_device:
-      name: Shelly i4 Gen3 Gerät
+    mqtt_topic:
+      name: MQTT Topic
+      description: Topic, auf dem der Shelly i4 Events sendet
       selector:
-        device:
-          integration: mqtt
-          manufacturer: Shelly
+        text:
 
     # Eingang 0
     in0_btn_down:
       name: Eingang 0 – btn_down
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in0_btn_up:
       name: Eingang 0 – btn_up
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in0_single_push:
       name: Eingang 0 – single_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in0_double_push:
       name: Eingang 0 – double_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in0_triple_push:
       name: Eingang 0 – triple_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in0_long_push:
       name: Eingang 0 – long_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
 
     # Eingang 1
     in1_btn_down:
       name: Eingang 1 – btn_down
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in1_btn_up:
       name: Eingang 1 – btn_up
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in1_single_push:
       name: Eingang 1 – single_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in1_double_push:
       name: Eingang 1 – double_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in1_triple_push:
       name: Eingang 1 – triple_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in1_long_push:
       name: Eingang 1 – long_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
 
     # Eingang 2
     in2_btn_down:
       name: Eingang 2 – btn_down
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in2_btn_up:
       name: Eingang 2 – btn_up
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in2_single_push:
       name: Eingang 2 – single_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in2_double_push:
       name: Eingang 2 – double_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in2_triple_push:
       name: Eingang 2 – triple_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in2_long_push:
       name: Eingang 2 – long_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
 
     # Eingang 3
     in3_btn_down:
       name: Eingang 3 – btn_down
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in3_btn_up:
       name: Eingang 3 – btn_up
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in3_single_push:
       name: Eingang 3 – single_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in3_double_push:
       name: Eingang 3 – double_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in3_triple_push:
       name: Eingang 3 – triple_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
     in3_long_push:
       name: Eingang 3 – long_push
-      default: []
-      selector: { action: {} }
+      selector:
+        action: {}
 
 mode: restart
 
 trigger:
   - platform: mqtt
-    topic: "wand_schalter_schlafzimmer/status/rpc"
-
-condition:
-  - condition: template
-    value_template: "{{ trigger.payload_json is defined }}"
+    topic: !input mqtt_topic
 
 action:
+  - variables:
+      event: "{{ trigger.payload_json.params.events[0] }}"
   - choose:
-
       # Eingang 0
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'btn_down' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'btn_down' }}"
         sequence: !input in0_btn_down
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'btn_up' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'btn_up' }}"
         sequence: !input in0_btn_up
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'single_push' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'single_push' }}"
         sequence: !input in0_single_push
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'double_push' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'double_push' }}"
         sequence: !input in0_double_push
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'triple_push' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'triple_push' }}"
         sequence: !input in0_triple_push
-      - conditions: "{{ trigger.payload_json['input:0']['state'] == 'long_push' }}"
+      - conditions: "{{ event.component == 'input:0' and event.event == 'long_push' }}"
         sequence: !input in0_long_push
 
       # Eingang 1
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'btn_down' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'btn_down' }}"
         sequence: !input in1_btn_down
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'btn_up' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'btn_up' }}"
         sequence: !input in1_btn_up
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'single_push' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'single_push' }}"
         sequence: !input in1_single_push
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'double_push' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'double_push' }}"
         sequence: !input in1_double_push
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'triple_push' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'triple_push' }}"
         sequence: !input in1_triple_push
-      - conditions: "{{ trigger.payload_json['input:1']['state'] == 'long_push' }}"
+      - conditions: "{{ event.component == 'input:1' and event.event == 'long_push' }}"
         sequence: !input in1_long_push
 
       # Eingang 2
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'btn_down' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'btn_down' }}"
         sequence: !input in2_btn_down
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'btn_up' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'btn_up' }}"
         sequence: !input in2_btn_up
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'single_push' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'single_push' }}"
         sequence: !input in2_single_push
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'double_push' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'double_push' }}"
         sequence: !input in2_double_push
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'triple_push' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'triple_push' }}"
         sequence: !input in2_triple_push
-      - conditions: "{{ trigger.payload_json['input:2']['state'] == 'long_push' }}"
+      - conditions: "{{ event.component == 'input:2' and event.event == 'long_push' }}"
         sequence: !input in2_long_push
 
       # Eingang 3
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'btn_down' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'btn_down' }}"
         sequence: !input in3_btn_down
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'btn_up' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'btn_up' }}"
         sequence: !input in3_btn_up
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'single_push' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'single_push' }}"
         sequence: !input in3_single_push
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'double_push' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'double_push' }}"
         sequence: !input in3_double_push
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'triple_push' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'triple_push' }}"
         sequence: !input in3_triple_push
-      - conditions: "{{ trigger.payload_json['input:3']['state'] == 'long_push' }}"
+      - conditions: "{{ event.component == 'input:3' and event.event == 'long_push' }}"
         sequence: !input in3_long_push
