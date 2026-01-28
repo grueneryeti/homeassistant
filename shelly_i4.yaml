@@ -1,264 +1,105 @@
 blueprint:
-  name: Shelly i4 4 Buttons Actions
-  description: Automation für Shelly i4 mit Short, Long, Single und Double Press auf allen 4 Tasten
+  name: Shelly i4 Gen3 – 4 Inputs, alle Aktionen
+  description: >
+    Universal Blueprint für Shelly i4 Gen3.
+    Unterstützt alle 4 Eingänge (0–3) und alle Events
+    (single, double, triple, long, btn_down, btn_up).
   domain: automation
-
   input:
-    button_device:
-      name: Shelly i4 Device
-      description: Wähle hier dein Shelly i4 Gerät aus
+
+    shelly_id:
+      name: Shelly ID
+      description: z. B. shellyi4g3-48f6ee913428
       selector:
-        device:
-          manufacturer: Shelly
-          model: SNSN-0024X
-          multiple: false
+        text:
 
-    # Button 1 Actions
-    btn1_down:
-      name: Button 1 Down
-      selector: { action: {} }
-    btn1_up:
-      name: Button 1 Up
-      selector: { action: {} }
-    btn1_single:
-      name: Button 1 Single Press
-      selector: { action: {} }
-    btn1_double:
-      name: Button 1 Double Press
-      selector: { action: {} }
-    btn1_long:
-      name: Button 1 Long Press
-      selector: { action: {} }
+    input_id:
+      name: Eingang (0–3)
+      selector:
+        number:
+          min: 0
+          max: 3
+          mode: slider
 
-    # Button 2 Actions
-    btn2_down:
-      name: Button 2 Down
-      selector: { action: {} }
-    btn2_up:
-      name: Button 2 Up
-      selector: { action: {} }
-    btn2_single:
-      name: Button 2 Single Press
-      selector: { action: {} }
-    btn2_double:
-      name: Button 2 Double Press
-      selector: { action: {} }
-    btn2_long:
-      name: Button 2 Long Press
-      selector: { action: {} }
+    single_push:
+      name: Single Push Aktion
+      default: []
+      selector:
+        action: {}
 
-    # Button 3 Actions
-    btn3_down:
-      name: Button 3 Down
-      selector: { action: {} }
-    btn3_up:
-      name: Button 3 Up
-      selector: { action: {} }
-    btn3_single:
-      name: Button 3 Single Press
-      selector: { action: {} }
-    btn3_double:
-      name: Button 3 Double Press
-      selector: { action: {} }
-    btn3_long:
-      name: Button 3 Long Press
-      selector: { action: {} }
+    double_push:
+      name: Double Push Aktion
+      default: []
+      selector:
+        action: {}
 
-    # Button 4 Actions
-    btn4_down:
-      name: Button 4 Down
-      selector: { action: {} }
-    btn4_up:
-      name: Button 4 Up
-      selector: { action: {} }
-    btn4_single:
-      name: Button 4 Single Press
-      selector: { action: {} }
-    btn4_double:
-      name: Button 4 Double Press
-      selector: { action: {} }
-    btn4_long:
-      name: Button 4 Long Press
-      selector: { action: {} }
+    triple_push:
+      name: Triple Push Aktion
+      default: []
+      selector:
+        action: {}
 
-mode: single
+    long_push:
+      name: Long Push Aktion
+      default: []
+      selector:
+        action: {}
+
+    btn_down:
+      name: Button gedrückt (btn_down)
+      default: []
+      selector:
+        action: {}
+
+    btn_up:
+      name: Button losgelassen (btn_up)
+      default: []
+      selector:
+        action: {}
+
+mode: restart
 max_exceeded: silent
 
 trigger:
-  # Button 1
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_down
-    subtype: button1
-    id: btn1_down
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_up
-    subtype: button1
-    id: btn1_up
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: single_push
-    subtype: button1
-    id: btn1_single
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: double_push
-    subtype: button1
-    id: btn1_double
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: long_push
-    subtype: button1
-    id: btn1_long
+  - platform: event
+    event_type: !input shelly_id
+    event_data:
+      device: !input shelly_id
 
-  # Button 2
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_down
-    subtype: button2
-    id: btn2_down
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_up
-    subtype: button2
-    id: btn2_up
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: single_push
-    subtype: button2
-    id: btn2_single
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: double_push
-    subtype: button2
-    id: btn2_double
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: long_push
-    subtype: button2
-    id: btn2_long
-
-  # Button 3
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_down
-    subtype: button3
-    id: btn3_down
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_up
-    subtype: button3
-    id: btn3_up
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: single_push
-    subtype: button3
-    id: btn3_single
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: double_push
-    subtype: button3
-    id: btn3_double
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: long_push
-    subtype: button3
-    id: btn3_long
-
-  # Button 4
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_down
-    subtype: button4
-    id: btn4_down
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: btn_up
-    subtype: button4
-    id: btn4_up
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: single_push
-    subtype: button4
-    id: btn4_single
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: double_push
-    subtype: button4
-    id: btn4_double
-  - platform: device
-    device_id: !input button_device
-    domain: shelly
-    type: long_push
-    subtype: button4
-    id: btn4_long
+condition:
+  - condition: template
+    value_template: >
+      {{ trigger.event.data.input == input_id }}
 
 action:
   - choose:
-      # Button 1
-      - conditions: [{ condition: trigger, id: btn1_down }]
-        sequence: !input btn1_down
-      - conditions: [{ condition: trigger, id: btn1_up }]
-        sequence: !input btn1_up
-      - conditions: [{ condition: trigger, id: btn1_single }]
-        sequence: !input btn1_single
-      - conditions: [{ condition: trigger, id: btn1_double }]
-        sequence: !input btn1_double
-      - conditions: [{ condition: trigger, id: btn1_long }]
-        sequence: !input btn1_long
 
-      # Button 2
-      - conditions: [{ condition: trigger, id: btn2_down }]
-        sequence: !input btn2_down
-      - conditions: [{ condition: trigger, id: btn2_up }]
-        sequence: !input btn2_up
-      - conditions: [{ condition: trigger, id: btn2_single }]
-        sequence: !input btn2_single
-      - conditions: [{ condition: trigger, id: btn2_double }]
-        sequence: !input btn2_double
-      - conditions: [{ condition: trigger, id: btn2_long }]
-        sequence: !input btn2_long
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'single_push' }}"
+        sequence: !input single_push
 
-      # Button 3
-      - conditions: [{ condition: trigger, id: btn3_down }]
-        sequence: !input btn3_down
-      - conditions: [{ condition: trigger, id: btn3_up }]
-        sequence: !input btn3_up
-      - conditions: [{ condition: trigger, id: btn3_single }]
-        sequence: !input btn3_single
-      - conditions: [{ condition: trigger, id: btn3_double }]
-        sequence: !input btn3_double
-      - conditions: [{ condition: trigger, id: btn3_long }]
-        sequence: !input btn3_long
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'double_push' }}"
+        sequence: !input double_push
 
-      # Button 4
-      - conditions: [{ condition: trigger, id: btn4_down }]
-        sequence: !input btn4_down
-      - conditions: [{ condition: trigger, id: btn4_up }]
-        sequence: !input btn4_up
-      - conditions: [{ condition: trigger, id: btn4_single }]
-        sequence: !input btn4_single
-      - conditions: [{ condition: trigger, id: btn4_double }]
-        sequence: !input btn4_double
-      - conditions: [{ condition: trigger, id: btn4_long }]
-        sequence: !input btn4_long
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'triple_push' }}"
+        sequence: !input triple_push
+
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'long_push' }}"
+        sequence: !input long_push
+
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'btn_down' }}"
+        sequence: !input btn_down
+
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.event_type == 'btn_up' }}"
+        sequence: !input btn_up
