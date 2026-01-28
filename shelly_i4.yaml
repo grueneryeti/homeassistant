@@ -126,111 +126,63 @@ trigger:
 
 condition:
   - condition: template
-    value_template: "{{ trigger.payload_json['params']['events'] is defined }}"
+    value_template: "{{ trigger.payload_json is defined }}"
 
 action:
   - choose:
 
       # Eingang 0
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_down' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'btn_down' }}"
         sequence: !input in0_btn_down
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_up' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'btn_up' }}"
         sequence: !input in0_btn_up
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'single_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'single_push' }}"
         sequence: !input in0_single_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'double_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'double_push' }}"
         sequence: !input in0_double_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'triple_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'triple_push' }}"
         sequence: !input in0_triple_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:0' and
-             trigger.payload_json['params']['events'][0]['event'] == 'long_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:0' and trigger.payload_json['events'][0]['event'] == 'long_push' }}"
         sequence: !input in0_long_push
 
       # Eingang 1
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_down' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'btn_down' }}"
         sequence: !input in1_btn_down
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_up' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'btn_up' }}"
         sequence: !input in1_btn_up
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'single_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'single_push' }}"
         sequence: !input in1_single_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'double_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'double_push' }}"
         sequence: !input in1_double_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'triple_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'triple_push' }}"
         sequence: !input in1_triple_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:1' and
-             trigger.payload_json['params']['events'][0]['event'] == 'long_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:1' and trigger.payload_json['events'][0]['event'] == 'long_push' }}"
         sequence: !input in1_long_push
 
       # Eingang 2
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_down' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'btn_down' }}"
         sequence: !input in2_btn_down
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_up' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'btn_up' }}"
         sequence: !input in2_btn_up
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'single_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'single_push' }}"
         sequence: !input in2_single_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'double_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'double_push' }}"
         sequence: !input in2_double_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'triple_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'triple_push' }}"
         sequence: !input in2_triple_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:2' and
-             trigger.payload_json['params']['events'][0]['event'] == 'long_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:2' and trigger.payload_json['events'][0]['event'] == 'long_push' }}"
         sequence: !input in2_long_push
 
       # Eingang 3
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_down' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'btn_down' }}"
         sequence: !input in3_btn_down
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'btn_up' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'btn_up' }}"
         sequence: !input in3_btn_up
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'single_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'single_push' }}"
         sequence: !input in3_single_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'double_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'double_push' }}"
         sequence: !input in3_double_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'triple_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'triple_push' }}"
         sequence: !input in3_triple_push
-      - conditions: >
-          {{ trigger.payload_json['params']['events'][0]['component'] == 'input:3' and
-             trigger.payload_json['params']['events'][0]['event'] == 'long_push' }}
+      - conditions: "{{ trigger.payload_json['events'][0]['component'] == 'input:3' and trigger.payload_json['events'][0]['event'] == 'long_push' }}"
         sequence: !input in3_long_push
