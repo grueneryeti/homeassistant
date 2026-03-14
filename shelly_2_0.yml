@@ -1,0 +1,61 @@
+blueprint:
+  name: Shelly i4 MQTT Taster
+  description: Steuerung für Shelly i4 Taster über MQTT
+  domain: automation
+
+  input:
+    mqtt_topic:
+      name: MQTT Device Topic
+      description: z.B. shellies/shellyi4_wohnzimmer
+      selector:
+        text:
+
+    in0_single:
+      name: Input 0 Single Push
+      default: []
+      selector:
+        action: {}
+
+    in1_single:
+      name: Input 1 Single Push
+      default: []
+      selector:
+        action: {}
+
+    in2_single:
+      name: Input 2 Single Push
+      default: []
+      selector:
+        action: {}
+
+    in3_single:
+      name: Input 3 Single Push
+      default: []
+      selector:
+        action: {}
+
+mode: queued
+
+trigger:
+  - platform: mqtt
+    topic: !input mqtt_topic
+    id: mqtt_event
+
+variables:
+  topic: "{{ trigger.topic }}"
+  payload: "{{ trigger.payload }}"
+
+action:
+  - choose:
+
+      - conditions: "{{ topic == (mqtt_topic ~ '/input/0') and payload == 'S' }}"
+        sequence: !input in0_single
+
+      - conditions: "{{ topic == (mqtt_topic ~ '/input/1') and payload == 'S' }}"
+        sequence: !input in1_single
+
+      - conditions: "{{ topic == (mqtt_topic ~ '/input/2') and payload == 'S' }}"
+        sequence: !input in2_single
+
+      - conditions: "{{ topic == (mqtt_topic ~ '/input/3') and payload == 'S' }}"
+        sequence: !input in3_single
