@@ -1,61 +1,173 @@
 blueprint:
-  name: Shelly i4 MQTT Taster
-  description: Steuerung für Shelly i4 Taster über MQTT
+  name: Shelly i4 Gen3 – Alle Aktionen (4 Eingänge × 6 Events)
+  description: >
+    Wähle dein Shelly i4 Gen3 Gerät und das MQTT RPC Topic.
+    Alle 24 Aktionen stehen als separate Felder zur Verfügung.
+    Leere Aktionen werden ignoriert.
   domain: automation
 
   input:
     mqtt_topic:
-      name: MQTT Device Topic
-      description: z.B. shellies/shellyi4_wohnzimmer
+      name: MQTT RPC Topic
+      description: z.B. shellyplusi4-xxxx/events/rpc
       selector:
         text:
 
-    in0_single:
-      name: Input 0 Single Push
+    # Eingang 0
+    in0_btn_down:
+      name: Eingang 0 – btn_down
       default: []
-      selector:
-        action: {}
-
-    in1_single:
-      name: Input 1 Single Push
+      selector: { action: {} }
+    in0_btn_up:
+      name: Eingang 0 – btn_up
       default: []
-      selector:
-        action: {}
-
-    in2_single:
-      name: Input 2 Single Push
+      selector: { action: {} }
+    in0_single_push:
+      name: Eingang 0 – single_push
       default: []
-      selector:
-        action: {}
-
-    in3_single:
-      name: Input 3 Single Push
+      selector: { action: {} }
+    in0_double_push:
+      name: Eingang 0 – double_push
       default: []
-      selector:
-        action: {}
+      selector: { action: {} }
+    in0_triple_push:
+      name: Eingang 0 – triple_push
+      default: []
+      selector: { action: {} }
+    in0_long_push:
+      name: Eingang 0 – long_push
+      default: []
+      selector: { action: {} }
 
-mode: queued
+    # Eingang 1
+    in1_btn_down:
+      default: []
+      selector: { action: {} }
+    in1_btn_up:
+      default: []
+      selector: { action: {} }
+    in1_single_push:
+      default: []
+      selector: { action: {} }
+    in1_double_push:
+      default: []
+      selector: { action: {} }
+    in1_triple_push:
+      default: []
+      selector: { action: {} }
+    in1_long_push:
+      default: []
+      selector: { action: {} }
+
+    # Eingang 2
+    in2_btn_down:
+      default: []
+      selector: { action: {} }
+    in2_btn_up:
+      default: []
+      selector: { action: {} }
+    in2_single_push:
+      default: []
+      selector: { action: {} }
+    in2_double_push:
+      default: []
+      selector: { action: {} }
+    in2_triple_push:
+      default: []
+      selector: { action: {} }
+    in2_long_push:
+      default: []
+      selector: { action: {} }
+
+    # Eingang 3
+    in3_btn_down:
+      default: []
+      selector: { action: {} }
+    in3_btn_up:
+      default: []
+      selector: { action: {} }
+    in3_single_push:
+      default: []
+      selector: { action: {} }
+    in3_double_push:
+      default: []
+      selector: { action: {} }
+    in3_triple_push:
+      default: []
+      selector: { action: {} }
+    in3_long_push:
+      default: []
+      selector: { action: {} }
+
+mode: restart
 
 trigger:
   - platform: mqtt
     topic: !input mqtt_topic
-    id: mqtt_event
 
 variables:
-  topic: "{{ trigger.topic }}"
-  payload: "{{ trigger.payload }}"
+  event: "{{ trigger.payload_json.params.events[0].event if trigger.payload_json.params.events is defined else '' }}"
+  component: "{{ trigger.payload_json.params.events[0].component if trigger.payload_json.params.events is defined else '' }}"
+
+condition:
+  - condition: template
+    value_template: "{{ component.startswith('input:') }}"
 
 action:
   - choose:
 
-      - conditions: "{{ topic == (mqtt_topic ~ '/input/0') and payload == 'S' }}"
-        sequence: !input in0_single
+      # Eingang 0
+      - conditions: "{{ component == 'input:0' and event == 'btn_down' }}"
+        sequence: !input in0_btn_down
+      - conditions: "{{ component == 'input:0' and event == 'btn_up' }}"
+        sequence: !input in0_btn_up
+      - conditions: "{{ component == 'input:0' and event == 'single_push' }}"
+        sequence: !input in0_single_push
+      - conditions: "{{ component == 'input:0' and event == 'double_push' }}"
+        sequence: !input in0_double_push
+      - conditions: "{{ component == 'input:0' and event == 'triple_push' }}"
+        sequence: !input in0_triple_push
+      - conditions: "{{ component == 'input:0' and event == 'long_push' }}"
+        sequence: !input in0_long_push
 
-      - conditions: "{{ topic == (mqtt_topic ~ '/input/1') and payload == 'S' }}"
-        sequence: !input in1_single
+      # Eingang 1
+      - conditions: "{{ component == 'input:1' and event == 'btn_down' }}"
+        sequence: !input in1_btn_down
+      - conditions: "{{ component == 'input:1' and event == 'btn_up' }}"
+        sequence: !input in1_btn_up
+      - conditions: "{{ component == 'input:1' and event == 'single_push' }}"
+        sequence: !input in1_single_push
+      - conditions: "{{ component == 'input:1' and event == 'double_push' }}"
+        sequence: !input in1_double_push
+      - conditions: "{{ component == 'input:1' and event == 'triple_push' }}"
+        sequence: !input in1_triple_push
+      - conditions: "{{ component == 'input:1' and event == 'long_push' }}"
+        sequence: !input in1_long_push
 
-      - conditions: "{{ topic == (mqtt_topic ~ '/input/2') and payload == 'S' }}"
-        sequence: !input in2_single
+      # Eingang 2
+      - conditions: "{{ component == 'input:2' and event == 'btn_down' }}"
+        sequence: !input in2_btn_down
+      - conditions: "{{ component == 'input:2' and event == 'btn_up' }}"
+        sequence: !input in2_btn_up
+      - conditions: "{{ component == 'input:2' and event == 'single_push' }}"
+        sequence: !input in2_single_push
+      - conditions: "{{ component == 'input:2' and event == 'double_push' }}"
+        sequence: !input in2_double_push
+      - conditions: "{{ component == 'input:2' and event == 'triple_push' }}"
+        sequence: !input in2_triple_push
+      - conditions: "{{ component == 'input:2' and event == 'long_push' }}"
+        sequence: !input in2_long_push
 
-      - conditions: "{{ topic == (mqtt_topic ~ '/input/3') and payload == 'S' }}"
-        sequence: !input in3_single
+      # Eingang 3
+      - conditions: "{{ component == 'input:3' and event == 'btn_down' }}"
+        sequence: !input in3_btn_down
+      - conditions: "{{ component == 'input:3' and event == 'btn_up' }}"
+        sequence: !input in3_btn_up
+      - conditions: "{{ component == 'input:3' and event == 'single_push' }}"
+        sequence: !input in3_single_push
+      - conditions: "{{ component == 'input:3' and event == 'double_push' }}"
+        sequence: !input in3_double_push
+      - conditions: "{{ component == 'input:3' and event == 'triple_push' }}"
+        sequence: !input in3_triple_push
+      - conditions: "{{ component == 'input:3' and event == 'long_push' }}"
+        sequence: !input in3_long_push
